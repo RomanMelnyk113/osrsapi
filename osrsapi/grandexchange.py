@@ -6,7 +6,7 @@ from .pricetrend import PriceTrend
 from .priceinfo import PriceInfo
 
 
-class GrandExchange(object):
+class GrandExchange:
     @staticmethod
     def item(id):
         uri = const.GE_BY_ID + str(id)

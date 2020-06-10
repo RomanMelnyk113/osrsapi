@@ -1,4 +1,4 @@
-class PriceInfo(object):
+class PriceInfo:
     def __init__(
         self, curr_trend, trend_today, trend_30, trend_90, trend_180
     ):

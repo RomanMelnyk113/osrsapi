@@ -1,7 +1,7 @@
 from . import const
 
 
-class Item(object):
+class Item:
     _items = {}
     _name_to_id = {}
 

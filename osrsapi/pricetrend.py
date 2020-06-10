@@ -1,4 +1,4 @@
-class PriceTrend(object):
+class PriceTrend:
 
     _money_shorthands = {"k": 1000, "m": 1000000, "b": 1000000000}
 
