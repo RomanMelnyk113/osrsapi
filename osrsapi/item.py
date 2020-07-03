@@ -5,7 +5,7 @@ class Item:
     _items = {}
     _name_to_id = {}
 
-    def __init__(self, id, name, description, is_mem, type, type_icon, price_info):
+    def __init__(self, id, name, description, is_mem, type, type_icon, price_info, exact_price):
         self.id = id
         self.name = name
         self.description = description
@@ -13,6 +13,7 @@ class Item:
         self.type = type
         self.type_icon = type_icon
         self.price_info = price_info
+        self.exact_price = exact_price
 
         self.icon = const.GE_ICON + str(self.id)
         self.large_icon = const.GE_LARGE_ICON + str(self.id)
