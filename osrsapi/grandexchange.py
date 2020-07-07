@@ -10,13 +10,16 @@ class GrandExchange:
     @staticmethod
     def item(id):
         uri = const.GE_BY_ID + str(id)
+        graph_uri = const.GE_GRAPH_BY_ID + str(id) + const.JSON_SUFFIX
 
         try:
             response = requests.get(uri)
+            response_graph = requests.get(graph_uri)
         except requests.HTTPError:
             raise Exception("Unable to find item with id %d." % id)
 
         json_data = response.json()["item"]
+        graph_json_data = response_graph.json()["daily"]
 
         name = json_data["name"]
         description = json_data["description"]
@@ -41,4 +44,7 @@ class GrandExchange:
             curr_trend, trend_today, trend_30, trend_90, trend_180
         )
 
-        return Item(id, name, description, is_mem, type, type_icon, price_info)
+        graph_data_list = list(graph_json_data.values())
+        exact_price = graph_data_list[-1]
+
+        return Item(id, name, description, is_mem, type, type_icon, price_info, exact_price)
