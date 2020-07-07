@@ -27,7 +27,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='osrsapi',
-    version='0.0.1',
+    version='0.0.2',
 
     description='OSRS API',
     long_description=long_description,
@@ -48,7 +48,7 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3:7',
     ],
 
     keywords='osrs grand_exchange osrsapi python',
