@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "osrsapi"
-version = "0.0.1"
+version = "0.0.2"
 description = "Grand exchange API"
 authors = ["Roman Melnyk <roman.melnyk20071992@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 requests = "^2"
+osrsapi = {git = "https://github.com/RomanMelnyk113/osrsapi"}
 
 [tool.poetry.dev-dependencies]
