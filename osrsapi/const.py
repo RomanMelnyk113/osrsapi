@@ -1,4 +1,4 @@
-BASE_URL = "https://services.runescape.com"
+BASE_URL = "https://secure.runescape.com"
 
 BASE_URL_GE = BASE_URL + "/m=itemdb_oldschool/"
 GE_BY_ID = BASE_URL_GE + "api/catalogue/detail.json?item="
