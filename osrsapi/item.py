@@ -1,3 +1,5 @@
+from typing import OrderedDict
+
 from . import const
 
 
@@ -24,5 +26,5 @@ class Item:
     def exact_price(self):
         return self.price_info.exact_price()
 
-    def daily_prices(self):
+    def daily_prices(self) -> OrderedDict[int, int]:
         return self.price_info.daily_180_prices

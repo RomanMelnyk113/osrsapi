@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 
 import requests
 
@@ -44,10 +45,8 @@ class GrandExchange:
         trend_90 = PriceTrend(None, day90["trend"], day90["change"])
         trend_180 = PriceTrend(None, day180["trend"], day180["change"])
 
-        graph_data_list = list(graph_json_data.values())
-
         price_info = PriceInfo(
-            curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=graph_data_list
+            curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=OrderedDict(graph_json_data)
         )
 
 

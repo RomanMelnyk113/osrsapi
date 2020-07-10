@@ -1,4 +1,5 @@
-from typing import List
+from typing import OrderedDict
+
 
 class PriceInfo:
     def __init__(
@@ -8,7 +9,7 @@ class PriceInfo:
             trend_30: 'PriceTrend',
             trend_90: 'PriceTrend',
             trend_180: 'PriceTrend',
-            daily_180_prices: List[int]
+            daily_180_prices: OrderedDict[int, int]
     ):
         self.curr_trend = curr_trend
         self.trend_today = trend_today
@@ -21,4 +22,4 @@ class PriceInfo:
         return self.curr_trend.price
 
     def exact_price(self):
-        return self.daily_180_prices[-1]
+        return self.daily_180_prices[next(reversed(self.daily_180_prices.keys()))]
