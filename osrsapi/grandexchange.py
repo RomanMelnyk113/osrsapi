@@ -1,3 +1,5 @@
+import logging
+
 import requests
 
 from . import const
@@ -5,6 +7,7 @@ from .item import Item
 from .pricetrend import PriceTrend
 from .priceinfo import PriceInfo
 
+logger = logging.getLogger(__name__)
 
 class GrandExchange:
     @staticmethod
@@ -15,7 +18,8 @@ class GrandExchange:
         try:
             response = requests.get(uri)
             response_graph = requests.get(graph_uri)
-        except requests.HTTPError:
+        except requests.HTTPError as e:
+            logger.error("OSRS API request error: ", str(e))
             raise Exception("Unable to find item with id %d." % id)
 
         json_data = response.json()["item"]
@@ -40,11 +44,11 @@ class GrandExchange:
         trend_90 = PriceTrend(None, day90["trend"], day90["change"])
         trend_180 = PriceTrend(None, day180["trend"], day180["change"])
 
+        graph_data_list = list(graph_json_data.values())
+
         price_info = PriceInfo(
-            curr_trend, trend_today, trend_30, trend_90, trend_180
+            curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=graph_data_list
         )
 
-        graph_data_list = list(graph_json_data.values())
-        exact_price = graph_data_list[-1]
 
-        return Item(id, name, description, is_mem, type, type_icon, price_info, exact_price)
+        return Item(id, name, description, is_mem, type, type_icon, price_info)
