@@ -1,5 +1,9 @@
-class PriceTrend:
+import logging
 
+logger = logging.getLogger(__name__)
+
+
+class PriceTrend:
     _money_shorthands = {"k": 1000, "m": 1000000, "b": 1000000000}
 
     def __init__(self, price, trend, change):
@@ -26,7 +30,11 @@ class PriceTrend:
         if change is None:
             return None
 
-        return float(change[:-1])
+        try:
+            return float(change[:-1])
+        except ValueError as e:
+            logger.error(f'PriceTrend._extract_change error: {str(e)}')
+            return None
 
     def __str__(self):
         v = vars(self)
