@@ -1,7 +1,6 @@
 from typing import OrderedDict
 
-from const import get_icon_url
-from . import const
+from .const import get_icon_url
 
 
 class Item:
