@@ -3,18 +3,19 @@ from collections import OrderedDict
 
 import requests
 
-from . import const
+from const import get_by_id_url, get_graph_by_id_url
 from .item import Item
 from .pricetrend import PriceTrend
 from .priceinfo import PriceInfo
 
 logger = logging.getLogger(__name__)
 
+
 class GrandExchange:
     @staticmethod
-    def item(id):
-        uri = const.GE_BY_ID + str(id)
-        graph_uri = const.GE_GRAPH_BY_ID + str(id) + const.JSON_SUFFIX
+    def item(id, is_rs3=False):
+        uri = get_by_id_url(id=id, is_rs3=is_rs3)
+        graph_uri = get_graph_by_id_url(id=id, is_rs3=is_rs3)
 
         try:
             response = requests.get(uri)
@@ -49,5 +50,4 @@ class GrandExchange:
             curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=OrderedDict(graph_json_data)
         )
 
-
-        return Item(id, name, description, is_mem, type, type_icon, price_info)
+        return Item(id, name, description, is_mem, type, type_icon, price_info, is_rs3=is_rs3)
