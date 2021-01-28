@@ -49,12 +49,11 @@ setup(
         'Topic :: Software Development :: Libraries',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 
     keywords='osrs grand_exchange osrsapi python',
     packages=['osrsapi'],
 
     install_requires=['requests'],
-
-    python_requires='>=3.7',
 )
