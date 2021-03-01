@@ -1,21 +1,27 @@
+import logging
+from collections import OrderedDict
+
 import requests
 
-from . import const
+from .const import get_by_id_url, get_graph_by_id_url
 from .item import Item
 from .pricetrend import PriceTrend
 from .priceinfo import PriceInfo
 
+logger = logging.getLogger(__name__)
+
 
 class GrandExchange:
     @staticmethod
-    def item(id):
-        uri = const.GE_BY_ID + str(id)
-        graph_uri = const.GE_GRAPH_BY_ID + str(id) + const.JSON_SUFFIX
+    def item(id, is_rs3=False):
+        uri = get_by_id_url(id=id, is_rs3=is_rs3)
+        graph_uri = get_graph_by_id_url(id=id, is_rs3=is_rs3)
 
         try:
             response = requests.get(uri)
             response_graph = requests.get(graph_uri)
-        except requests.HTTPError:
+        except requests.HTTPError as e:
+            logger.error("OSRS API request error: ", str(e))
             raise Exception("Unable to find item with id %d." % id)
 
         json_data = response.json()["item"]
@@ -41,10 +47,7 @@ class GrandExchange:
         trend_180 = PriceTrend(None, day180["trend"], day180["change"])
 
         price_info = PriceInfo(
-            curr_trend, trend_today, trend_30, trend_90, trend_180
+            curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=OrderedDict(graph_json_data)
         )
 
-        graph_data_list = list(graph_json_data.values())
-        exact_price = graph_data_list[-1]
-
-        return Item(id, name, description, is_mem, type, type_icon, price_info, exact_price)
+        return Item(id, name, description, is_mem, type, type_icon, price_info, is_rs3=is_rs3)
