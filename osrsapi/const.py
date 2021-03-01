@@ -8,7 +8,7 @@ GE_ICON_PATH = "obj_sprite.gif?id="
 GE_LARGE_ICON_PATH = "obj_big.gif?id="
 GE_GRAPH_BY_ID_PATH = "api/graph/"
 
-HISCORES_URL= "https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player="
+HISCORES_URL = BASE_URL + "/m=hiscore_oldschool/index_lite.ws?player="
 
 def get_by_id_url(id: int, is_rs3=False):
     db_version = BASE_RS3_URL_GE if is_rs3 else BASE_OSRS_URL_GE
