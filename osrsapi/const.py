@@ -3,14 +3,12 @@ BASE_URL = "https://secure.runescape.com"
 BASE_OSRS_URL_GE = BASE_URL + "/m=itemdb_oldschool/"
 BASE_RS3_URL_GE = BASE_URL + "/m=itemdb_rs/"
 
-GE_ICON = BASE_URL_GE + "obj_sprite.gif?id="
-GE_LARGE_ICON = BASE_URL_GE + "obj_big.gif?id="
-
 GE_BY_ID_PATH = "api/catalogue/detail.json?item="
 GE_ICON_PATH = "obj_sprite.gif?id="
 GE_LARGE_ICON_PATH = "obj_big.gif?id="
 GE_GRAPH_BY_ID_PATH = "api/graph/"
 
+HISCORES_URL= "https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player="
 
 def get_by_id_url(id: int, is_rs3=False):
     db_version = BASE_RS3_URL_GE if is_rs3 else BASE_OSRS_URL_GE
@@ -27,4 +25,3 @@ def get_icon_url(id: int, large=False, is_rs3=False):
     icon_type = GE_LARGE_ICON_PATH if large else GE_ICON_PATH
     base = f"{db_version}{icon_type}{id}"
     return base
->>>>>>> upstream/master
