@@ -7,3 +7,5 @@ JSON_SUFFIX = ".json"
 
 GE_ICON = BASE_URL_GE + "obj_sprite.gif?id="
 GE_LARGE_ICON = BASE_URL_GE + "obj_big.gif?id="
+
+HISCORES_URL= "https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player="
