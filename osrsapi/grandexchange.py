@@ -1,5 +1,7 @@
 import logging
 from collections import OrderedDict
+from http import HTTPStatus
+from json.decoder import JSONDecodeError
 
 import requests
 
@@ -11,21 +13,37 @@ from .priceinfo import PriceInfo
 logger = logging.getLogger(__name__)
 
 
+class GameItemNotFound(Exception):
+    pass
+
+
+class GameItemParseError(Exception):
+    pass
+
+
 class GrandExchange:
     @staticmethod
     def item(id, is_rs3=False):
         uri = get_by_id_url(id=id, is_rs3=is_rs3)
         graph_uri = get_graph_by_id_url(id=id, is_rs3=is_rs3)
-
+        db_name = "RS3" if is_rs3 else "OSRS"
         try:
             response = requests.get(uri)
             response_graph = requests.get(graph_uri)
         except requests.HTTPError as e:
             logger.error("OSRS API request error: ", str(e))
-            raise Exception("Unable to find item with id %d." % id)
+            raise GameItemNotFound(f"Unable to find item from {db_name} with id {id}.")
 
-        json_data = response.json()["item"]
-        graph_json_data = response_graph.json()["daily"]
+        if response.status_code == HTTPStatus.NOT_FOUND:
+            raise GameItemNotFound(f"Unable to find item from {db_name} with id {id}.")
+
+        try:
+            json_data = response.json()["item"]
+            graph_json_data = response_graph.json()["daily"]
+        except JSONDecodeError as e:
+            msg = f"Error during parsing game item object. Item from {db_name} with id {id}."
+            logger.error(f"{msg}. Details: ", str(e))
+            raise GameItemParseError(msg)
 
         name = json_data["name"]
         description = json_data["description"]

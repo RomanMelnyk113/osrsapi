@@ -1,4 +1,4 @@
-from .grandexchange import GrandExchange
+from .grandexchange import GrandExchange, GameItemNotFound, GameItemParseError
 
 from .item import Item
 from .priceinfo import PriceInfo
