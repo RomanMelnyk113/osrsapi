@@ -38,25 +38,33 @@ class GrandExchange:
             raise GameItemNotFound(f"Unable to find item from {db_name} with id {id}.")
 
         try:
-            json_data = response.json()["item"]
-            graph_json_data = response_graph.json()["daily"]
+            json_data = response.json()
+            item = json_data.get("item")
         except JSONDecodeError as e:
             msg = f"Error during parsing game item object. Item from {db_name} with id {id}."
             logger.error(f"{msg}. Details: ", str(e))
             raise GameItemParseError(msg)
 
-        name = json_data["name"]
-        description = json_data["description"]
-        is_mem = bool(json_data["members"])
-        type = json_data["type"]
-        type_icon = json_data["typeIcon"]
+        try:
+            graph_json_data = response_graph.json()
+            daily_data = graph_json_data.get("daily")
+        except JSONDecodeError as e:
+            msg = f"Error during parsing game item daily info. Item from {db_name} with id {id}."
+            logger.error(f"{msg}. Details: ", str(e))
+            raise GameItemParseError(msg)
+
+        name = item["name"]
+        description = item["description"]
+        is_mem = bool(item["members"])
+        type = item["type"]
+        type_icon = item["typeIcon"]
 
         # price info/trends
-        current = json_data["current"]
-        today = json_data["today"]
-        day30 = json_data["day30"]
-        day90 = json_data["day90"]
-        day180 = json_data["day180"]
+        current = item["current"]
+        today = item["today"]
+        day30 = item["day30"]
+        day90 = item["day90"]
+        day180 = item["day180"]
 
         curr_trend = PriceTrend(current["price"], current["trend"], None)
         trend_today = PriceTrend(today["price"], today["trend"], None)
@@ -65,7 +73,7 @@ class GrandExchange:
         trend_180 = PriceTrend(None, day180["trend"], day180["change"])
 
         price_info = PriceInfo(
-            curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=OrderedDict(graph_json_data)
+            curr_trend, trend_today, trend_30, trend_90, trend_180, daily_180_prices=OrderedDict(daily_data)
         )
 
         return Item(id, name, description, is_mem, type, type_icon, price_info, is_rs3=is_rs3)
