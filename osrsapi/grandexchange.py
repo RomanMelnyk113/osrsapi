@@ -42,7 +42,10 @@ class GrandExchange:
             item = json_data.get("item")
         except JSONDecodeError as e:
             msg = f"Error during parsing game item object. Item from {db_name} with id {id}."
-            logger.error(f"{msg}. Details: ", str(e))
+            details = 'No details'
+            if response.text:
+                details = response.text
+            logger.exception(f"{msg}. Details: {details}", exc_info=True)
             raise GameItemParseError(msg)
 
         try:
@@ -50,7 +53,10 @@ class GrandExchange:
             daily_data = graph_json_data.get("daily")
         except JSONDecodeError as e:
             msg = f"Error during parsing game item daily info. Item from {db_name} with id {id}."
-            logger.error(f"{msg}. Details: ", str(e))
+            details = 'No details'
+            if response.text:
+                details = response.text
+            logger.exception(f"{msg}. Details: {details}", exc_info=True)
             raise GameItemParseError(msg)
 
         name = item["name"]
