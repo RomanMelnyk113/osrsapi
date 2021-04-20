@@ -38,7 +38,6 @@ class GrandExchange:
             raise GameItemNotFound(f"Unable to find item from {db_name} with id {id}.")
 
         try:
-            logger.info("Item response", response.text)
             json_data = response.json()
             item = json_data.get("item")
         except JSONDecodeError as e:
@@ -50,7 +49,6 @@ class GrandExchange:
             raise GameItemParseError(msg)
 
         try:
-            logger.info("Item response_graph", response_graph.text)
             graph_json_data = response_graph.json()
             daily_data = graph_json_data.get("daily")
         except JSONDecodeError as e:
