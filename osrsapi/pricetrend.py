@@ -31,7 +31,7 @@ class PriceTrend:
             return None
 
         try:
-            return float(change[:-1])
+            return float(change[:-1].replace(",",""))
         except ValueError as e:
             logger.error(f'PriceTrend._extract_change error: {str(e)}')
             return None
